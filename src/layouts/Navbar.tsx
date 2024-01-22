@@ -6,28 +6,11 @@ import Profile from "../assets/profile.webp";
 import {useState} from "react";
 
 export function Navbar() {
-  const [showFullWidthSearch, setShowFullWidthSearch] = useState(false)
+  const [showFullWidthSearch] = useState(false)
   return (
     <>
       <div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4">
         <PageHeaderFirstSection hidden={showFullWidthSearch}/>
-        <form
-          className={`gap-4 flex-grow justify-center ${
-            showFullWidthSearch ? "flex" : "hidden md:flex"
-          }`}
-        >
-          {showFullWidthSearch && (
-            <Button
-              onClick={() => setShowFullWidthSearch(false)}
-              type="button"
-              size="icon"
-              variant="ghost"
-              className="flex-shrink-0"
-            >
-              <Icon icon={`ant-design:arrow-left-outlined`} className="text-2xl"/>
-            </Button>
-          )}
-        </form>
         <div className={`flex-shrink-0 md:gap-2 flex`}>
           <Button type="button" size="icon" className="flex-shrink-0 mx-3">
             <Icon icon={`ion:notifcations`} className="text-3xl"/>
@@ -58,7 +41,7 @@ export function PageHeaderFirstSection({hidden = false}: PageHeaderFirstSectionP
       <Button onClick={toggle} variant="ghost" size="icon">
         <Icon icon={`ant-design:menu-outlined`} className="text-2xl"/>
       </Button>
-      <a href="/">
+      <a href="/admin">
         <img src={logo} className="h-6"/>
       </a>
     </div>

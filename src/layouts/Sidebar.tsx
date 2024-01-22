@@ -1,20 +1,34 @@
-
-import { twMerge } from "tailwind-merge"
+import {AdminMenu, adminMenuProps} from "../routes/adminMenu.tsx";
+import {Link, useLocation} from "react-router-dom";
+import {twMerge} from "tailwind-merge";
 import {Button, buttonStyles} from "../components/Button.tsx";
 import {Icon} from "@iconify/react";
-import {useSidebarContext} from "../contexts/SidebarContext";
+import {useSidebarContext} from "../contexts/SidebarContext.tsx";
 import {PageHeaderFirstSection} from "./Navbar.tsx";
-import {Children, ElementType, Fragment, ReactNode, useState} from "react";
-import {menu} from "../dammy/SideMenu.tsx";
+import {Children, Fragment, ReactNode, useState} from "react";
 
-export function Sidebar(){
+export function Sidebar() {
+  const location = useLocation();
   const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
+  const sidemenu = AdminMenu[0].children
   return (
     <>
       <aside className={`sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 ${
         isLargeOpen ? "lg:hidden" : "lg:flex"
       }`}>
-        <SmallSidebarItem icon={`ic:round-home`} title="Home" url="/" />
+        {sidemenu.map((item, index) => {
+            return item.title && (
+              <SmallSidebarItem
+                key={index}
+                icon={item.icon}
+                iconActive={item.iconActive}
+                title={item.title}
+                path={item.path}
+                isActive={location.pathname.includes(item.path)}
+              />
+            )
+          }
+        )}
       </aside>
       {isSmallOpen && (
         <div
@@ -32,18 +46,15 @@ export function Sidebar(){
         </div>
         <LargeSidebarSection>
           {
-            menu.map((item, index) => {
-              return (
+            sidemenu.map((item, index) => {
+              return item.title && (
                 <Fragment key={index}>
-                  {item.exact && (
-                    <hr className={`mt-3`}/>
-                  )}
                   <LargeSidebarItem
                     key={index}
-                    icon={item.icon}
+                    icon={location.pathname.includes(item.path) ? item.iconActive :  item.icon}
                     title={item.title}
-                    url={item.url}
-                    isActive={item.url === "/"}
+                    path={item.path}
+                    isActive={location.pathname.includes(item.path)}
                     children={item.children}
                   />
                 </Fragment>
@@ -53,27 +64,79 @@ export function Sidebar(){
         </LargeSidebarSection>
       </aside>
     </>
-)
+  )
 }
 
-type SmallSidebarItemProps = {
-  icon: string,
-    title: string
-  url: string
-}
-
-function SmallSidebarItem({icon, title, url }: SmallSidebarItemProps) {
+function LargeSidebarItem({icon, isActive, title, path, children}: adminMenuProps) {
+  const [isExpanded, setIsExpanded] = useState(isActive)
   return (
-    <a
-      href={url}
-      className={twMerge(
-        buttonStyles({ variant: "ghost" }),
-        "py-4 px-1 flex flex-col items-center rounded-lg gap-1"
+    <>
+      {!children ? (
+        <Link to={path}>
+          <label
+            className={twMerge(
+              buttonStyles({ variant: "ghost" }),
+              `w-full flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
+                isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
+              }`
+            )}>
+            <Icon icon={`${icon}`} className="text-xl" />
+            <div className="whitespace-nowrap overflow-hidden text-sm">{title}</div>
+          </label>
+        </Link>
+      ) : (
+        <>
+          <button
+            className={twMerge(
+              buttonStyles({variant: "ghost"}),
+              `w-full flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
+                isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
+              }`
+            )}
+            onClick={() => { setIsExpanded(e => !e) }}
+          >
+            <Icon icon={`${icon}`} className="text-xl" />
+            <div className="whitespace-nowrap overflow-hidden text-sm">{title}</div>
+            <Icon
+              icon={`iconamoon:arrow-down-2`}
+              className={`ml-auto text-xl transition-transform duration-300 transform ${isExpanded ? 'rotate-180' : ''}`}
+            />
+          </button>
+          { children.map((subitem, index) => {
+            return subitem.title && (
+              <Link to={`${path}/${subitem.path}`} key={index}>
+                <label
+                  className={twMerge(
+                    buttonStyles({ variant: "ghost" }),
+                    `w-auto flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
+                      location.pathname.endsWith(subitem.path) ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
+                    } ${isExpanded ? '' : "hidden"}`
+                  )}>
+                  <Icon icon="tdesign:tree-list" className="text-xl" />
+                  <div className="whitespace-nowrap overflow-hidden text-sm">{subitem.title}</div>
+                </label>
+              </Link>
+            )
+          })}
+        </>
       )}
-    >
-      <Icon icon={icon} className="text-2xl" />
-      <div className="text-sm">{title}</div>
-    </a>
+    </>
+  )
+  
+}
+
+function SmallSidebarItem({icon, iconActive, title, path, isActive}: adminMenuProps) {
+  return (
+    <>
+      <Link to={path}>
+        <label className={twMerge(buttonStyles({ variant: "ghost" }),
+          "py-4 px-1 flex flex-col items-center rounded-lg gap-1"
+        )}>
+          <Icon icon={`${isActive ? iconActive : icon}`} className="text-2xl" />
+          <div className="text-sm">{title}</div>
+        </label>
+      </Link>
+    </>
   )
 }
 
@@ -82,7 +145,6 @@ type LargeSidebarSectionProps = {
   title?: string
   visibleItemCount?: number
 }
-
 function LargeSidebarSection({ children, title,  visibleItemCount = Number.POSITIVE_INFINITY }: LargeSidebarSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const childrenArray = Children.toArray(children).flat()
@@ -105,87 +167,5 @@ function LargeSidebarSection({ children, title,  visibleItemCount = Number.POSIT
         </Button>
       )}
     </div>
-  )
-}
-
-type LargeSidebarItemProps = {
-  Img?: ElementType | string
-  icon?: string
-  title: string
-  url: string
-  isActive?: boolean
-  children?: LargeSidebarItemProps[]
-}
-
-function LargeSidebarItem({ Img, icon, title, url, isActive = false, children }: LargeSidebarItemProps) {
-  // Hide and show children
-  const [isExpanded, setIsExpanded] = useState(false)
-  const ButtonIcon = isExpanded ? 'iconamoon:arrow-up-2' : 'iconamoon:arrow-down-2'
-  
-  
-  return (
-    <>
-      {!children ? (
-        <a
-          href={url}
-          className={twMerge(
-            buttonStyles({ variant: "ghost" }),
-            `w-full flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
-              isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
-            }`
-          )}
-        >
-          {icon && <Icon icon={icon} className="text-xl" />}
-          {Img && typeof Img === "string" && (
-            <img src={Img} className="w-6 h-6 rounded-full" />
-          )}
-          <div className="whitespace-nowrap overflow-hidden text-sm">
-            {title}
-          </div>
-        </a>
-      ): (
-        <>
-          <button
-            className={twMerge(
-              buttonStyles({variant: "ghost"}),
-              `w-full flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
-                isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
-              }`
-            )}
-            onClick={() => { setIsExpanded(e => !e) }}
-          >
-            {icon && <Icon icon={icon} className="text-xl"/>}
-            {Img && typeof Img === "string" && (
-              <img src={Img} className="w-6 h-6 rounded-full"/>
-            )}
-            <div className="whitespace-nowrap overflow-hidden text-sm">
-              {title}
-            </div>
-            {/*icon Arrow*/}
-            <div className="flex-grow flex justify-end">
-              <Icon icon={ButtonIcon} className="text-xl"/>
-            </div>
-          </button>
-          {children.map((subitem, index) => {
-            return (
-              <a
-                href={subitem.url}
-                key={index}
-                className={twMerge(
-                  buttonStyles({ variant: "ghost" }),
-                  `w-auto flex items-center rounded-lg gap-4 ml-9 p-2.5 mb-1 ${
-                  isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined}
-                  ${isExpanded ? '' : "hidden"}`
-                )}
-              >
-                <div className="whitespace-nowrap overflow-hidden text-sm">
-                  {subitem.title}
-                </div>
-              </a>
-            )
-          })}
-        </>
-      )}
-    </>
   )
 }
