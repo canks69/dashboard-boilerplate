@@ -19,9 +19,10 @@ interface SidebarProviderProps {
   children: ReactNode;
 }
 export function SidebarProvider({ children }: SidebarProviderProps) {
+  const  root = document.documentElement;
   const [isLargeOpen, setIsLargeOpen] = useState(true)
   const [isSmallOpen, setIsSmallOpen] = useState(false)
-  
+  root.setAttribute("class", localStorage.getItem('theme') || 'default');
   useEffect(() => {
     const handler = () => {
       if (!isScreenSmall()) setIsSmallOpen(false)

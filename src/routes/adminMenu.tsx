@@ -2,6 +2,7 @@ import {JSX} from "react";
 import {AdminLayout} from "../layouts/AdminLayout.tsx";
 import {Navigate} from "react-router-dom";
 import {BaseLayout} from "../layouts/BaseLayout.tsx";
+import {DashboardPage} from "../pages/dashboard/DashboardPage.tsx";
 
 export interface adminMenuProps {
   title?: string;
@@ -24,7 +25,7 @@ export const AdminMenu = [
       {
         title: "Dashboard",
         path: "dashboard",
-        element: <h1>Dashboard</h1>,
+        element: <DashboardPage />,
         icon: "iconamoon:home-light",
         iconActive: "iconamoon:home-fill",
       },

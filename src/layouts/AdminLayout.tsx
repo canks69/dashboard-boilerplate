@@ -6,7 +6,7 @@ import {Outlet} from "react-router-dom";
 export const AdminLayout = () => {
     return (
       <SidebarProvider>
-        <div className="max-h-screen flex flex-col">
+        <div className="h-screen flex flex-col dark:bg-[#0f0f0f] dark:text-white">
           <Navbar />
           <div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto">
             <Sidebar/>

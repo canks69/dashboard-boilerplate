@@ -1,0 +1,35 @@
+export const Movie = [
+  {
+    id: 1,
+    title: "Prognosis Negative",
+    image: "https://tailwindcss.com/_next/static/media/prognosis-negative.6897ae50.jpg",
+    starRating: 2.66,
+    rating: "PG-13",
+    year: 2019,
+    genre: "Comedy",
+    runtime: "1h 32m",
+    cast: "Simon Pegg, Zach Galifianakis",
+  },
+  {
+    id: 2,
+    title: "The Big Fix Up",
+    image: "https://tailwindcss.com/_next/static/media/rochelle-rochelle.b97e372a.jpg",
+    starRating: 3.5,
+    rating: "PG",
+    year: 2018,
+    genre: "Documentary",
+    runtime: "1h 24m",
+    cast: "Benedict Cumberbatch, Martin Freeman",
+  },
+  {
+    id: 3,
+    title: "The Great Calm",
+    image: "https://tailwindcss.com/_next/static/media/rochelle-rochelle.b97e372a.jpg",
+    starRating: 4.5,
+    rating: "PG-13",
+    year: 2019,
+    genre: "Drama",
+    runtime: "2h 10m",
+    cast: "Leonardo DiCaprio, Joseph Gordon-Levitt",
+  }
+]

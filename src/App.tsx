@@ -1,11 +1,14 @@
 import {RouterProvider} from "react-router-dom";
 import {mainRoutes} from "./routes/mainRoutes.tsx";
+import {HelmetProvider} from "react-helmet-async";
 
 function App() {
 
   return (
     <>
-      <RouterProvider router={mainRoutes}></RouterProvider>
+      <HelmetProvider>
+        <RouterProvider router={mainRoutes}></RouterProvider>
+      </HelmetProvider>
     </>
 )
 }

@@ -33,15 +33,15 @@ export function Sidebar() {
       {isSmallOpen && (
         <div
           onClick={close}
-          className="lg:hidden fixed inset-0 z-[999] bg-secondary-dark opacity-50"
+          className="lg:hidden fixed inset-0 z-[999] bg-secondary-dark  opacity-50"
         />
       )}
       <aside
         className={`w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 ${
           isLargeOpen ? "lg:flex" : "lg:hidden"
-        } ${isSmallOpen ? "flex z-[999] bg-white min-h-screen max-h-screen" : "hidden"}`}
+        } ${isSmallOpen ? "flex z-[999] bg-white dark:bg-[#3f3f3f] min-h-screen max-h-screen" : "hidden"}`}
       >
-        <div className="lg:hidden pt-2 pb-4 px-2 sticky top-0 bg-white">
+        <div className="lg:hidden pt-2 pb-4 px-2 sticky top-0 bg-white ">
           <PageHeaderFirstSection/>
         </div>
         <LargeSidebarSection>
@@ -76,8 +76,8 @@ function LargeSidebarItem({icon, isActive, title, path, children}: adminMenuProp
           <label
             className={twMerge(
               buttonStyles({ variant: "ghost" }),
-              `w-full flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
-                isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
+              `w-full flex items-center bg-transparent text-slate-900 rounded-lg gap-4 p-2.5 mb-1 ${
+                isActive ? "font-medium bg-neutral-100 dark:bg-[#3f3f3f]" : undefined
               }`
             )}>
             <Icon icon={`${icon}`} className="text-xl" />
@@ -89,8 +89,8 @@ function LargeSidebarItem({icon, isActive, title, path, children}: adminMenuProp
           <button
             className={twMerge(
               buttonStyles({variant: "ghost"}),
-              `w-full flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
-                isActive ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
+              `w-full flex items-center bg-transparent text-slate-900 rounded-lg gap-4 p-2.5 mb-1 ${
+                isActive ? "font-medium bg-neutral-100 dark:bg-[#3f3f3f]" : undefined
               }`
             )}
             onClick={() => { setIsExpanded(e => !e) }}
@@ -108,8 +108,8 @@ function LargeSidebarItem({icon, isActive, title, path, children}: adminMenuProp
                 <label
                   className={twMerge(
                     buttonStyles({ variant: "ghost" }),
-                    `w-auto flex items-center rounded-lg gap-4 p-2.5 mb-1 ${
-                      location.pathname.endsWith(subitem.path) ? "font-medium bg-neutral-100 hover:bg-secondary" : undefined
+                    `w-auto flex items-center bg-transparent text-slate-900 rounded-lg gap-4 p-2.5 mb-1 ${
+                      location.pathname.endsWith(subitem.path) ? "font-medium bg-neutral-100 dark:bg-[#3f3f3f]" : undefined
                     } ${isExpanded ? '' : "hidden"}`
                   )}>
                   <Icon icon="tdesign:tree-list" className="text-xl" />
