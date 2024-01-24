@@ -10,7 +10,7 @@ export function ProfileCard(){
   const [show, setShow] = useState(true)
   const [mode, setMode] = useState(true)
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'default')
-  const profileCardRef = useRef(null);
+  const profileCardRef = useRef<HTMLDivElement>(null);
   
   
   const handleTheme = (val: string) => {
@@ -32,8 +32,8 @@ export function ProfileCard(){
     setShow(!show)
   }
   
-  const handleClickOutside = (event: any) => {
-    if (profileCardRef.current && !profileCardRef.current.contains(event.target)) {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (profileCardRef.current && !profileCardRef.current.contains(event.target as Node)) {
       setShow(true);
       setMode(true);
     }
