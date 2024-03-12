@@ -3,7 +3,6 @@ import {mainRoutes} from "./routes/mainRoutes.tsx";
 import {HelmetProvider} from "react-helmet-async";
 
 function App() {
-
   return (
     <>
       <HelmetProvider>
