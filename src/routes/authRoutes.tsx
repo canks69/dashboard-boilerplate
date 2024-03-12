@@ -1,9 +1,10 @@
 import {RouteObject} from "react-router-dom";
+import {LoginPage} from "../pages/authentication/LoginPage.tsx";
 
 export const AuthRoutes:RouteObject[] = [
   {
     path: "/login",
-    element: <>Login Page</>,
+    element: <LoginPage/>,
   },
   {
     path: "/register",

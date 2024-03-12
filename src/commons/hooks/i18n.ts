@@ -17,12 +17,12 @@ const resources = {
 i18n
   .use(initReactI18next)
   .init({
-    resources,
-    lng: language,
-    interpolation: {
-      escapeValue: false,
-    },
-  }
-)
+      resources,
+      lng: language,
+      interpolation: {
+        escapeValue: false,
+      },
+    }
+  )
 
 export default i18n

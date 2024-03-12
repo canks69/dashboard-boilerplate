@@ -12,7 +12,7 @@ export const buttonStyles = cva(["transition-colors"], {
         "bg-transparent",
         "dark:bg-transparent",
         "hover:bg-secondary",
-        "dark:hover:bg-[#3f3f3f]",
+        "dark:hover:bg-gray-800",
         "dark:text-white",
         "text-slate-900",
       ],

@@ -1,7 +1,6 @@
 import {Button} from "../components/Button.tsx";
 import {Icon} from "@iconify/react";
 import {useSidebarContext} from "../contexts/SidebarContext.tsx";
-import logo from "../assets/react.svg";
 
 import {useState} from "react"
 import {ProfileCard} from "../components/users/ProfileCard.tsx";
@@ -33,7 +32,7 @@ export function PageHeaderFirstSection({hidden = false}: PageHeaderFirstSectionP
   
   return (
     <div
-      className={`gap-4 items-center flex-shrink-0 ${
+      className={`gap-4 items-center flex-shrink-0 w-auto ${
         hidden ? "hidden" : "flex"
       }`}
     >
@@ -41,7 +40,9 @@ export function PageHeaderFirstSection({hidden = false}: PageHeaderFirstSectionP
         <Icon icon={`ant-design:menu-outlined`} className="text-2xl"/>
       </Button>
       <a href="/admin">
-        <img src={logo} className="h-6"/>
+        <h2 className="text-2xl font-bold">
+          Dashboard
+        </h2>
       </a>
     </div>
   )
